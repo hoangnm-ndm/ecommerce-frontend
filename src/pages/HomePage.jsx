@@ -4,7 +4,7 @@ import HeroSection from "../components/ui/HeroSection";
 const HomePage = () => {
 	return (
 		<>
-			<HeroSection />
+			{/* <HeroSection /> */}
 			<Container>{/* Các phần khác như thương hiệu, bộ sưu tập */}</Container>
 		</>
 	);

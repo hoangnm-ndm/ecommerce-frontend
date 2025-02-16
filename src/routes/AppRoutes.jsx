@@ -29,32 +29,49 @@ const AppRoutes = () => {
 			],
 		},
 
+		// User Layout (Khách hàng đã đăng nhập)
+		{
+			path: "/user",
+			element: <ProtectedRoute allowedRoles={["customer", "admin", "manager"]} />,
+			children: [
+				{ path: "order", element: <OrderPage /> },
+				{ path: "profile", element: <ProfilePage /> },
+			],
+		},
+
 		// Empty layout
 		{ path: "/register", element: <RegisterPage /> },
 		{ path: "/login", element: <LoginPage /> },
 
 		// Admin layout
+
 		{
 			path: "/admin",
-			element: <LayoutAdmin />,
+			element: <ProtectedRoute allowedRoles={["admin"]} />,
 			children: [
-				{ path: "", element: <Dashboard /> },
-				{ path: "dashboard", element: <Dashboard /> },
-				{ path: "brands", element: <BrandTablePage /> },
-				{ path: "brands/add", element: <BrandFormPage /> },
-				{ path: "banners", element: <BannerTablePage /> },
-				{ path: "banner-detail", element: <BannerDetailTablePage /> },
+				{
+					path: "",
+					element: <LayoutAdmin />,
+					children: [
+						{ path: "", element: <Dashboard /> },
+						{ path: "dashboard", element: <Dashboard /> },
+						{ path: "brands", element: <BrandTablePage /> },
+						{ path: "brands/add", element: <BrandFormPage /> },
+						{ path: "banners", element: <BannerTablePage /> },
+						{ path: "banner-detail", element: <BannerDetailTablePage /> },
 
-				// { path: "brands/update/:id", element: <BrandForm /> },
-				// { path: "categories", element: <CategoryTable /> },
-				// { path: "categories/add", element: <CategoryForm /> },
-				// { path: "categories/update/:id", element: <CategoryForm /> },
-				// { path: "sub-categories", element: <SubCategoryTable /> },
-				// { path: "sub-categories/add", element: <SubCategoryForm /> },
-				// { path: "sub-categories/update/:id", element: <SubCategoryForm /> },
-				// { path: "products", element: <ProductTable /> },
-				// { path: "products/add", element: <ProductForm /> },
-				// { path: "products/update/:id", element: <ProductForm /> },
+						// { path: "brands/update/:id", element: <BrandForm /> },
+						// { path: "categories", element: <CategoryTable /> },
+						// { path: "categories/add", element: <CategoryForm /> },
+						// { path: "categories/update/:id", element: <CategoryForm /> },
+						// { path: "sub-categories", element: <SubCategoryTable /> },
+						// { path: "sub-categories/add", element: <SubCategoryForm /> },
+						// { path: "sub-categories/update/:id", element: <SubCategoryForm /> },
+						// { path: "products", element: <ProductTable /> },
+						// { path: "products/add", element: <ProductForm /> },
+						// { path: "products/update/:id", element: <ProductForm /> },
+					],
+				},
 			],
 		},
 
