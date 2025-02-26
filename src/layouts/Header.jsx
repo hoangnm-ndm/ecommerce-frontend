@@ -16,7 +16,7 @@ import {
 	TextField,
 } from "@mui/material";
 import { Menu as MenuIcon, Search as SearchIcon, AccountCircle } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const menuItems = [
 	{ title: "Home", path: "/" },
@@ -42,12 +42,22 @@ const menuItems = [
 ];
 
 const Header = () => {
-	const [anchorEl, setAnchorEl] = useState(null);
 	const [mobileOpen, setMobileOpen] = useState(false);
+	const [userMenu, setUserMenu] = useState(null);
+	const navigate = useNavigate();
 
-	const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
-	const handleMenuClose = () => setAnchorEl(null);
+	// Toggle mobile menu
 	const toggleMobileMenu = () => setMobileOpen(!mobileOpen);
+
+	// Mở menu user
+	const handleUserMenuOpen = (event) => {
+		setUserMenu(event.currentTarget);
+	};
+
+	// Đóng menu user
+	const handleUserMenuClose = () => {
+		setUserMenu(null);
+	};
 
 	return (
 		<AppBar position="fixed" sx={{ bgcolor: "white", color: "black", boxShadow: 2, width: "100%", zIndex: "1100" }}>
@@ -62,14 +72,7 @@ const Header = () => {
 					{menuItems.map((item, index) =>
 						item.subMenu ? (
 							<Box key={index}>
-								<Button onClick={handleMenuOpen}>{item.title}</Button>
-								<Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-									{item.subMenu.map((sub, i) => (
-										<MenuItem key={i} component={Link} to={sub.path} onClick={handleMenuClose}>
-											{sub.title}
-										</MenuItem>
-									))}
-								</Menu>
+								<Button>{item.title}</Button>
 							</Box>
 						) : (
 							<Button key={index} component={Link} to={item.path}>
@@ -93,9 +96,27 @@ const Header = () => {
 				</Box>
 
 				{/* User Menu */}
-				<IconButton>
+				<IconButton onClick={handleUserMenuOpen}>
 					<AccountCircle />
 				</IconButton>
+				<Menu anchorEl={userMenu} open={Boolean(userMenu)} onClose={handleUserMenuClose}>
+					<MenuItem
+						onClick={() => {
+							navigate("/register");
+							handleUserMenuClose();
+						}}
+					>
+						Register
+					</MenuItem>
+					<MenuItem
+						onClick={() => {
+							navigate("/login");
+							handleUserMenuClose();
+						}}
+					>
+						Login
+					</MenuItem>
+				</Menu>
 
 				{/* Mobile Menu Icon */}
 				<IconButton sx={{ display: { xs: "block", md: "none" } }} onClick={toggleMobileMenu}>

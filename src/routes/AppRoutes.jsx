@@ -1,22 +1,24 @@
 import { useRoutes } from "react-router-dom";
-import LayoutClient from "../layouts/LayoutClient";
-import HomePage from "../pages/HomePage";
-import AboutPage from "../pages/AboutPage";
-import RegisterPage from "../pages/RegisterPage";
-import LoginPage from "../pages/LoginPage";
 import LayoutAdmin from "../layouts/LayoutAdmin";
+import LayoutClient from "../layouts/LayoutClient";
+import AboutPage from "../pages/AboutPage";
+import HomePage from "../pages/HomePage";
+import LoginPage from "../pages/LoginPage";
 import NotfoundPage from "../pages/NotfoundPage";
+import RegisterPage from "../pages/RegisterPage";
 import Dashboard from "../pages/admin/Dashboard";
-import BrandTablePage from "../pages/admin/brand/BrandTablePage";
-import BrandFormPage from "../pages/admin/brand/BrandFormPage";
-import BannerTable from "../features/banner/BannerTable";
-import BannerForm from "../features/banner/BannerForm";
-import BannerDetailTable from "../features/banner/BannerDetailTable";
-import BannerDetailForm from "../features/banner/BannerDetailForm";
 import BannerTablePage from "../pages/admin/banner/BannerTablePage";
-import BannerFormPage from "../pages/admin/banner/BannerFormPage";
 import BannerDetailTablePage from "../pages/admin/bannerDetail/BannerDetailTablePage";
-import BannerDetailFormPage from "../pages/admin/bannerDetail/BannerDetailFormPage";
+import BrandFormPage from "../pages/admin/brand/BrandFormPage";
+import BrandTablePage from "../pages/admin/brand/BrandTablePage";
+import ProtectedRoute from "./ProtectedRoute";
+import ProfilePage from "../pages/ProfilePage";
+import OrderPage from "../pages/OrderPage";
+import CategoryTablePage from "../pages/admin/category/CategoryTablePage";
+import CategoryFormPage from "../pages/admin/category/CategoryFormPage";
+import SubCategoryTablePage from "../pages/admin/subCategory/SubCategoryTablePage";
+import SubCategoryFormPage from "../pages/admin/subCategory/SubCategoryFormPage";
+
 const AppRoutes = () => {
 	const routes = [
 		// Client Layout
@@ -61,12 +63,12 @@ const AppRoutes = () => {
 						{ path: "banner-detail", element: <BannerDetailTablePage /> },
 
 						// { path: "brands/update/:id", element: <BrandForm /> },
-						// { path: "categories", element: <CategoryTable /> },
-						// { path: "categories/add", element: <CategoryForm /> },
-						// { path: "categories/update/:id", element: <CategoryForm /> },
-						// { path: "sub-categories", element: <SubCategoryTable /> },
-						// { path: "sub-categories/add", element: <SubCategoryForm /> },
-						// { path: "sub-categories/update/:id", element: <SubCategoryForm /> },
+						{ path: "categories", element: <CategoryTablePage /> },
+						{ path: "categories/add", element: <CategoryFormPage /> },
+						{ path: "categories/update/:id", element: <CategoryFormPage /> },
+						{ path: "sub-categories", element: <SubCategoryTablePage /> },
+						{ path: "sub-categories/add", element: <SubCategoryFormPage /> },
+						{ path: "sub-categories/update/:id", element: <SubCategoryFormPage /> },
 						// { path: "products", element: <ProductTable /> },
 						// { path: "products/add", element: <ProductForm /> },
 						// { path: "products/update/:id", element: <ProductForm /> },

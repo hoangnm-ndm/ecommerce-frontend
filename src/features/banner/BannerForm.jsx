@@ -16,7 +16,6 @@ const BannerForm = ({ banner, onSuccess }) => {
 		register,
 		handleSubmit,
 		formState: { errors },
-		reset,
 	} = useForm({
 		resolver: zodResolver(bannerSchema),
 		defaultValues: banner || { title: "", image: "", description: "", status: true },
@@ -29,8 +28,7 @@ const BannerForm = ({ banner, onSuccess }) => {
 			} else {
 				await bannerApi.create(data);
 			}
-			reset();
-			onSuccess();
+			onSuccess(); // Cập nhật lại danh sách
 		} catch (error) {
 			console.error("Lỗi khi lưu banner:", error);
 		}
@@ -56,9 +54,10 @@ const BannerForm = ({ banner, onSuccess }) => {
 					sx={{ mb: 3 }}
 				/>
 				<TextField label="Description" fullWidth multiline rows={3} {...register("description")} sx={{ mb: 3 }} />
+				<FormControlLabel control={<Switch {...register("status")} />} label="Active" />
 
+				{/* Căn nút Lưu sang phải */}
 				<Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-					<FormControlLabel control={<Switch {...register("status")} />} label="Active" />
 					<Button type="submit" variant="contained" color="primary">
 						Lưu
 					</Button>

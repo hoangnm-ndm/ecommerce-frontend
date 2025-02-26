@@ -1,66 +1,52 @@
-import { useEffect, useState } from "react";
-import {
-	Container,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Paper,
-	IconButton,
-} from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
+import React from "react";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from "@mui/material";
 import bannerApi from "../../api/bannerApi";
 
-const BannerDetailTable = ({ onEdit }) => {
-	const [bannerDetails, setBannerDetails] = useState([]);
-
-	useEffect(() => {
-		const fetchBannerDetails = async () => {
+const BannerTable = ({ banners, onEdit, onRefresh }) => {
+	const handleDelete = async (id) => {
+		if (window.confirm("Bạn có chắc muốn xóa banner này?")) {
 			try {
-				const response = await bannerApi.getAllDetails();
-				setBannerDetails(response);
+				await bannerApi.delete(id);
+				onRefresh(); // Load lại danh sách banner
 			} catch (error) {
-				console.error("Error fetching banner details:", error);
+				console.error("Lỗi khi xóa banner:", error);
 			}
-		};
-		fetchBannerDetails();
-	}, []);
+		}
+	};
 
 	return (
-		<Container>
-			<TableContainer component={Paper}>
-				<Table>
-					<TableHead>
-						<TableRow>
-							<TableCell>ID</TableCell>
-							<TableCell>Banner ID</TableCell>
-							<TableCell>Product ID</TableCell>
-							<TableCell>Actions</TableCell>
+		<TableContainer component={Paper}>
+			<Table>
+				<TableHead>
+					<TableRow>
+						<TableCell>Tiêu đề</TableCell>
+						<TableCell>Hình ảnh</TableCell>
+						<TableCell>Trạng thái</TableCell>
+						<TableCell>Hành động</TableCell>
+					</TableRow>
+				</TableHead>
+				<TableBody>
+					{banners.map((banner) => (
+						<TableRow key={banner.id}>
+							<TableCell>{banner.title}</TableCell>
+							<TableCell>
+								<img src={banner.image} alt={banner.title} width={100} />
+							</TableCell>
+							<TableCell>{banner.status ? "Hiển thị" : "Ẩn"}</TableCell>
+							<TableCell>
+								<Button variant="contained" color="warning" onClick={() => onEdit(banner)}>
+									Chỉnh sửa
+								</Button>
+								<Button variant="contained" color="error" onClick={() => handleDelete(banner.id)} sx={{ ml: 2 }}>
+									Xóa
+								</Button>
+							</TableCell>
 						</TableRow>
-					</TableHead>
-					<TableBody>
-						{bannerDetails.map((detail) => (
-							<TableRow key={detail.id}>
-								<TableCell>{detail.id}</TableCell>
-								<TableCell>{detail.banner_id}</TableCell>
-								<TableCell>{detail.product_id}</TableCell>
-								<TableCell>
-									<IconButton onClick={() => onEdit(detail)}>
-										<Edit />
-									</IconButton>
-									<IconButton color="error">
-										<Delete />
-									</IconButton>
-								</TableCell>
-							</TableRow>
-						))}
-					</TableBody>
-				</Table>
-			</TableContainer>
-		</Container>
+					))}
+				</TableBody>
+			</Table>
+		</TableContainer>
 	);
 };
 
-export default BannerDetailTable;
+export default BannerTable;
